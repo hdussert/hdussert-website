@@ -1,0 +1,11 @@
+.home {
+  display: flex;
+  justify-content: center;
+  overflow-y: auto;
+  &-content {
+    box-sizing: border-box;
+    padding: 0 1rem;
+    max-width: var(--container-max-width);
+    height: max-content;
+  }
+}

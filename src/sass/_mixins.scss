@@ -1,0 +1,12 @@
+$tablet-width: 768px;
+$desktop-width: 1024px;
+
+@mixin mobile {
+  @media (max-width: #{$desktop-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin debug ($debug-color: red) {
+  border: 2px solid $debug-color;
+}

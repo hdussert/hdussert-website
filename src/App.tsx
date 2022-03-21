@@ -1,26 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import Navbar from './components/Navbar';
+import Switch from './components/Switch';
+import Home from './pages/Home';
+import './sass/App.scss';
+import { HummingBird } from './svgs';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Navbar
+          title='Hugo Dussert'
+          icon={HummingBird}
+          links={[
+            {to: '/', title: 'Home'},
+            {to: '/page1', title: 'Page 1'},
+            {to: '/page2', title: 'Page 2'},
+          ]}
+        />
+        <AppPages />
+      </Router>
     </div>
   );
+}
+
+const AppPages = () => {
+  let location = useLocation();
+
+  return (
+    <div className="App-pages">
+      <TransitionGroup>
+        <CSSTransition
+          key={location.pathname}
+          classNames='fade'
+          timeout={500}
+        >
+          <Routes location={location}>
+            <Route path='/' element={<Home/>} />
+            <Route path='/page1' element={<div>P1</div>} />
+            <Route path='/page2' element={<div>P2</div>} />
+          </Routes>
+        </CSSTransition>
+      </TransitionGroup>
+    </div>
+  )
 }
 
 export default App;

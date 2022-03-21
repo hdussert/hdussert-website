@@ -1,0 +1,45 @@
+$accent:          #61DAFB;
+
+$primary:         #EEEEEE;
+$primary-rgb:       238, 238, 238;
+$primary-light:     lighten($primary, 30%);
+
+$secondary:       rgb(32, 32, 35);
+$secondary-rgb:     32, 32, 35;
+
+$secondary-light:   lighten($secondary, 30%);
+
+$container-max-width: 768px;
+//
+
+:root {
+  --accent:           #{$accent};
+
+  --primary:          #{$primary};
+  --primary-rgb:      #{$primary-rgb};
+  --primary-light:    #{$primary-light};
+
+  --secondary:        #{$secondary};
+  --secondary-rgb:    #{$secondary-rgb};
+  --secondary-light:  #{$secondary-light};
+
+  --font-color:       #{var(--secondary)};
+  --font-color-light: #{var(--secondary-light)};
+
+  --container-max-width: #{$container-max-width};
+}
+
+[data-theme="dark"] {
+  --accent:           #{lighten($accent, 60%)};
+
+  --primary:          #{$secondary};
+  --primary-rgb:      #{$secondary-rgb};
+  --primary-light:    #{$secondary-light};
+
+  --secondary:        #{$primary};
+  --secondary-rgb:    #{$primary-rgb};
+  --secondary-light:  #{$primary-light};
+
+  --font-color:       #{var(--secondary)};
+  --font-color-light: #{var(--secondary-light)};
+}
