@@ -2,12 +2,12 @@ $accent:          #61DAFB;
 
 $primary:         #EEEEEE;
 $primary-rgb:       238, 238, 238;
-$primary-light:     lighten($primary, 30%);
+$primary-light:     darken($primary, 50%);
 
 $secondary:       rgb(32, 32, 35);
 $secondary-rgb:     32, 32, 35;
 
-$secondary-light:   lighten($secondary, 30%);
+$secondary-light:   lighten($secondary, 20%);
 
 $container-max-width: 768px;
 //

@@ -2,7 +2,7 @@ import PropTypes, { InferProps } from 'prop-types';
 
 import { useRef } from "react";
 import { NavLink } from "react-router-dom"
-import { Burger } from "../svgs"
+import { Burger } from "../assets/svgs"
 import Switch from "./Switch";
 
 const NavbarPropTypes = {

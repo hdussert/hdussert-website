@@ -1,0 +1,63 @@
+.resume {
+  overflow-y: auto;
+  &-container {
+    
+    margin: auto;
+    box-sizing: border-box;
+    padding: 0 1rem;
+    padding-top: 2rem;
+    max-width: var(--container-max-width);
+    min-height: 100%;
+    height: max-content;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    a {
+      color: cornflowerblue;
+    }
+  }
+
+  &-section {
+    > h2 {
+      text-transform: lowercase;
+      font-variant: small-caps;
+      text-decoration: underline;
+      text-underline-offset: 6px;
+      text-decoration-thickness: 4px;
+      text-decoration-color: var(--secondary-light);
+    }
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  &-skills {
+    text-transform: lowercase;
+    font-variant: small-caps;
+    font-weight: bold;
+  }
+}
+
+.experience {
+  &-dates {
+    color: var(--secondary-light);
+    font-size: .8em;
+    text-transform: uppercase;
+  }
+  > div {
+    margin-top: .5rem;
+    // padding-left: 1rem;
+  }
+  &-description {
+    color: var(--grey);
+    margin-top: .8rem;
+    display: flex;
+    flex-direction: column;
+    font-size: .8rem;
+    li {
+      list-style-type: '- ';
+    }
+  }
+}
