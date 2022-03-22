@@ -3,6 +3,7 @@ import PropTypes, { InferProps } from 'prop-types';
 import { useRef } from "react";
 import { NavLink } from "react-router-dom"
 import { Burger } from "../assets/svgs"
+import useColorScheme from '../hooks/useColorScheme';
 import Switch from "./Switch";
 
 const NavbarPropTypes = {
@@ -23,10 +24,9 @@ const Navbar = ({ icon, title, links } : NavbarTypes) => {
   if (menuToggler.current) menuToggler.current.checked = false
   }
 
+  const [ isDark, setIsDark ] = useColorScheme();
   const changeTheme = () => {
-    const root = document.getElementById('root');
-    const currentTheme = root?.getAttribute('data-theme');
-    root?.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+    setIsDark(!isDark);
   }
 
   return (
