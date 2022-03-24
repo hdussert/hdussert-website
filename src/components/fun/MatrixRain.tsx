@@ -74,7 +74,7 @@ class Stream {
     ctx.fillStyle = firstCharColor
     ctx.font = this.fontSize + 'px consolas'
     
-    this.stream.map((s, i)=> {
+    this.stream.forEach((s, i)=> {
 
       let opacity = 0;
       if (i > 5) opacity = (i - 5) / (this.stream.length - 5) 
@@ -88,8 +88,6 @@ class Stream {
   }
 }
 
-
-
 const MatrixRain = () => {
   
   const nbStreams = 80;
@@ -97,7 +95,7 @@ const MatrixRain = () => {
 
   const draw = (ctx: CanvasRenderingContext2D, frameCount: number) => {
     ctx.clearRect(0,0,canvasWidth, canvasHeight);
-    streams.map(s => {
+    streams.forEach(s => {
       s.update()
       s.draw(ctx)
     });

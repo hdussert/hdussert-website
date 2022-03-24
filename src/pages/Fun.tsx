@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom'
-import PropTypes, { InferProps, shape, string } from 'prop-types';
+import PropTypes, { InferProps } from 'prop-types';
 
 const FunPropTypes = {
   routes: PropTypes.arrayOf(PropTypes.exact({
