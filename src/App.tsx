@@ -8,9 +8,11 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Resume from './pages/Resume';
 import React from 'react';
+import Fun from './pages/Fun';
+import MatrixRain from './components/fun/MatrixRain';
 
 
-interface AppRoute {
+export interface AppRoute {
   path: string;
   title: string;
   Component: React.ComponentType;
@@ -19,6 +21,11 @@ interface AppRoute {
 const appRoutes: AppRoute[] = [
   { path: '/', title: 'Accueil', Component: Home },
   { path: '/resume', title: 'Curriculum', Component: Resume },
+  { path: '/fun', title: 'Fun', Component: Fun },
+];
+
+const funRoutes: AppRoute[] = [
+  { path: '/fun/matrix', title: 'Matrix', Component: MatrixRain },
 ];
 
 function App() {
@@ -53,8 +60,18 @@ const AppPages = () => {
         >
           <Routes location={location}>
             {
-              appRoutes.map(({path, Component}, i) => 
-              <Route key={i} path={path} element={<Component/>} />)
+              appRoutes.map(({path, Component}, i) => {
+                if (path === '/fun') {
+                  return (<Route key={i} path={path} element={<Fun routes={funRoutes}/>}>
+                  {
+                    funRoutes.map(({path, Component}, i : number) => 
+                    <Route key={i} path={path} element={<Component/>} />)
+                  }
+                  </Route>)
+                }
+                
+                return <Route key={i} path={path} element={<Component/>} />
+              })
             }
           </Routes>
         </CSSTransition>
