@@ -78,18 +78,18 @@ const Resume = () : JSX.Element => {
   )
 }
 
-const Experience = ({organisation, title, startDate, endDate, bullets}: any) => {
+const Experience = ({organisation, title, startDate, endDate, bullets}: any) : JSX.Element => {
   return (
     <div className='experience'>
       <div className='experience-dates'>{startDate} - {endDate}</div>
       <div>
         <h3>{organisation}</h3>
         <h4>{title}</h4>
-        {
-          bullets ? <div className='experience-description'>
-                      {bullets?.map((b: any, i: number) => <li key={i}>{b}</li>)}
-                    </div> : null
-        }
+        { bullets ? 
+          <div className='experience-description'>
+            {bullets.map((b: any, i: number) => <li key={i}>{b}</li>)}
+          </div> 
+        : null }
       </div>
     </div>
   )

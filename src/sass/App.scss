@@ -4,13 +4,14 @@
 
 @import './pages/home';
 @import './pages/resume';
+@import './pages/fun';
 
 @import './components/navbar';
 @import './components/switch';
+@import './components/matrix-rain';
 
 .App {
   background-color: var(--primary);
-  // background: linear-gradient(135deg,rgb(6,147,227),rgb(155,81,224));
 
   font-family: 'Futura', 'Verdana', 'Comic Sans MS';
   color: var(--font-color);
@@ -49,7 +50,6 @@
   right: 0;
   top: 0;
   bottom: 0;
-  padding: 4rem 0;
 }
 
 // Pages transition
