@@ -1,27 +1,8 @@
+import { useEffect, useRef } from 'react';
 import Canvas from './Canvas'
 
-// Global Variables
-
-const canvasWidth = 768
-const canvasHeight = window.innerHeight
-
-const characters : string = '\\<>?!#0123456789ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍ'
-
-const minStreamSize = 5
-const maxStreamSize = 30
-
-const minFontSize = 15
-const maxFontSize = 30
-
-const charUpdateFrequency = .5
-
-const firstCharColor = '#00EFEF'
-// const charColor = '#32FA64'
-const charColor = '#6432FA'
-
-const maxSpeed = 5;
-
 // Generating random strings
+const characters : string = '\\<>?!#0123456789ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍ'
 
 const getRandomCharacter = () : string =>
 characters.charAt((Math.random() * characters.length) | 0);
@@ -34,76 +15,123 @@ const getRandomStream = (size: number) : string[] =>
   .fill(undefined)
   .map(_ => getRandomCharacter());
 
-// ---
+// Global Variables
+const CANVAS_WIDTH = window.innerWidth
+const CANVAS_HEIGHT = window.innerHeight
 
+const NB_OF_STREAMS = 150;
+
+const STREAM_LENGTH_MIN = 5
+const STREAM_LENGTH_MAX = 30
+
+const FONT_SIZE_MIN = 15
+const FONT_SIZE_MAX = 30
+
+const CHAR_UPDATE_FREQUENCY = .5
+
+// const FIRST_CHAR_COLOR = '#FFFFFF' 
+const FIRST_CHAR_COLOR = '#00EFEF' 
+// const CHAR_COLOR = '#32FA64' 
+const CHAR_COLOR = '#6432FA'
+
+const MAX_SPEED = 5;
+
+// Classes definitions
 class Stream {
+  ctx : CanvasRenderingContext2D
+  
+  stream!: string[]
+  length!: number
+  fontSize!: number
+  size!: number
+  
   x!: number
   y!: number
   
-  fontSize!: number
   baseOpacity!: number 
   speed!: number
   
-  stream!: string[]
-  size!: number
-  
-  constructor() {
+  startFadingIndex!: number
+
+  constructor(ctx : CanvasRenderingContext2D) {
+    this.ctx = ctx;
     this.reset()
   }
 
-  reset (y = Math.random() * canvasHeight | 0) {
-    this.x = Math.random() * canvasWidth | 0
-    this.y = y
+  reset (y = -1) {
+    this.stream = getRandomStream(getRandomInRange(STREAM_LENGTH_MIN, STREAM_LENGTH_MAX))
+    this.length = this.stream.length;
+    this.fontSize = getRandomInRange(FONT_SIZE_MIN, FONT_SIZE_MAX)
+    this.size = this.fontSize * this.length
     
-    this.fontSize = getRandomInRange(minFontSize, maxFontSize)
-    this.baseOpacity = this.fontSize / maxFontSize;
-    this.speed = this.fontSize / maxFontSize * maxSpeed | 0
+    this.x = Math.random() * CANVAS_WIDTH | 0
+    if (y !== -1) this.y = y;
+    else this.y = Math.random() * (CANVAS_HEIGHT + this.size) | 0
     
-    this.stream = getRandomStream(getRandomInRange(minStreamSize, maxStreamSize))  
-    this.size = this.fontSize * this.stream.length
+    this.baseOpacity = this.fontSize / FONT_SIZE_MAX;
+    this.speed = this.fontSize / FONT_SIZE_MAX * MAX_SPEED | 0
+    
+    this.startFadingIndex = this.length / 2 | 0
   }
 
   update() {
     this.y += this.speed;
-    if (this.y > canvasHeight + this.size) this.reset(0)
-    else if (Math.random() < charUpdateFrequency) 
-      this.stream[getRandomInRange(0, this.stream.length)] = getRandomCharacter()
+    if (this.y > CANVAS_HEIGHT + this.size) return this.reset(0)
+    
+    if (Math.random() < CHAR_UPDATE_FREQUENCY) 
+      this.stream[getRandomInRange(0, this.length)] = getRandomCharacter()
   }
 
-  draw(ctx: CanvasRenderingContext2D) {
-    ctx.fillStyle = firstCharColor
-    ctx.font = this.fontSize + 'px consolas'
+  draw() {
+    this.ctx.fillStyle = FIRST_CHAR_COLOR
+    this.ctx.font = `${this.fontSize}px Arial`
     
     this.stream.forEach((s, i)=> {
 
       let opacity = 0;
-      if (i > 5) opacity = (i - 5) / (this.stream.length - 5) 
+      if (i > this.startFadingIndex) 
+        opacity = (i - this.startFadingIndex) / this.startFadingIndex; 
+      
       opacity = Math.max(((this.baseOpacity - opacity) * 255) | 0, 0)
       
-      if (i === 0) ctx.fillStyle = `${firstCharColor}${opacity.toString(16)}`
-      else ctx.fillStyle = `${charColor}${opacity.toString(16)}`
+      if (i === 0) this.ctx.fillStyle = `${FIRST_CHAR_COLOR}${opacity.toString(16)}`
+      else this.ctx.fillStyle = `${CHAR_COLOR}${opacity.toString(16)}`
       
-      ctx.fillText(s, this.x, this.y - i * this.fontSize)
+      this.ctx.fillText(s, this.x, this.y - i * this.fontSize)
     })
+  }
+
+  animate() {
+    this.update()
+    this.draw()
   }
 }
 
 const MatrixRain = () => {
   
-  const nbStreams = 80;
-  const streams = new Array(nbStreams).fill(undefined).map(_ => new Stream());
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  let streams = useRef<Stream[]>([]);
+
+
+  useEffect(()=>{
+    if (!canvasRef.current) return
+
+    const _ctx = canvasRef.current.getContext('2d')
+    if (!_ctx) return;
+
+    streams.current = new Array(NB_OF_STREAMS).fill(undefined).map(_ => new Stream(_ctx));
+  }, [])
+  
 
   const draw = (ctx: CanvasRenderingContext2D, frameCount: number) => {
-    ctx.clearRect(0,0,canvasWidth, canvasHeight);
-    streams.forEach(s => {
-      s.update()
-      s.draw(ctx)
-    });
+    ctx.clearRect(0,0,CANVAS_WIDTH, CANVAS_HEIGHT);
+    if (!streams) return 
+    streams.current.forEach(s => s.animate());
   }
 
   return (
     <div className='fill matrix-rain-canvas'>
-      <Canvas width={canvasWidth} height={canvasHeight} draw={draw}/>
+      <Canvas ref={canvasRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} draw={draw}/>
     </div>
   )
 }
