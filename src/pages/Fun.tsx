@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import PropTypes, { InferProps } from 'prop-types';
+import { createContext, useLayoutEffect, useRef, useState } from 'react';
 
 const FunPropTypes = {
   routes: PropTypes.arrayOf(PropTypes.exact({
@@ -11,15 +12,33 @@ const FunPropTypes = {
 
 type FunTypes = InferProps<typeof FunPropTypes>;
 
+interface FunContextInterface {
+  width: number | undefined,
+  height: number | undefined
+}
+export const FunContext = createContext<FunContextInterface | null>(null);
+
 const Fun = ({ routes }: FunTypes) => {
+  
+  const contentRef = useRef<HTMLDivElement>(null)
+  const [funContext, setFunContext] = useState<FunContextInterface>({width: contentRef?.current?.clientWidth, height: contentRef?.current?.clientHeight});
+  useLayoutEffect(()=>{
+    setFunContext({
+      width: contentRef?.current?.clientWidth,
+      height: contentRef?.current?.clientHeight,
+    })
+  },[])
+  
   return (
     <div className='fill fun'>
       <div className='fun-container'>
         <div className='fun-navbar'>
         { routes?.map(({ path, title }, i : number) => <NavLink key={i} to={path}>{title}</NavLink>) }
         </div>
-        <div className='fun-content'>
-          <Outlet />
+        <div ref={contentRef} className='fun-content'>
+          <FunContext.Provider value={funContext}>
+            <Outlet />
+          </FunContext.Provider>
         </div>
       </div>
     </div>

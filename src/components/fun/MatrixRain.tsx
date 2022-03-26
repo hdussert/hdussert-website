@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
+import { FunContext } from '../../pages/Fun';
 import Canvas from './Canvas'
 
 // Generating random strings
@@ -15,9 +16,6 @@ const getRandomStream = (size: number) : string[] =>
   .fill(undefined)
   .map(_ => getRandomCharacter());
 
-// Global Variables
-const CANVAS_WIDTH = window.innerWidth
-const CANVAS_HEIGHT = window.innerHeight
 
 const NB_OF_STREAMS = 150;
 
@@ -39,7 +37,8 @@ const MAX_SPEED = 5;
 // Classes definitions
 class Stream {
   ctx : CanvasRenderingContext2D
-  
+  canvasWidth: number
+  canvasHeight: number
   stream!: string[]
   length!: number
   fontSize!: number
@@ -53,7 +52,9 @@ class Stream {
   
   startFadingIndex!: number
 
-  constructor(ctx : CanvasRenderingContext2D) {
+  constructor(ctx : CanvasRenderingContext2D, canvasW: number, canvasH: number) {
+    this.canvasWidth = canvasW
+    this.canvasHeight = canvasH
     this.ctx = ctx;
     this.reset()
   }
@@ -64,9 +65,9 @@ class Stream {
     this.fontSize = getRandomInRange(FONT_SIZE_MIN, FONT_SIZE_MAX)
     this.size = this.fontSize * this.length
     
-    this.x = Math.random() * CANVAS_WIDTH | 0
+    this.x = Math.random() * this.canvasWidth | 0
     if (y !== -1) this.y = y;
-    else this.y = Math.random() * (CANVAS_HEIGHT + this.size) | 0
+    else this.y = Math.random() * (this.canvasHeight + this.size) | 0
     
     this.baseOpacity = this.fontSize / FONT_SIZE_MAX;
     this.speed = this.fontSize / FONT_SIZE_MAX * MAX_SPEED | 0
@@ -76,7 +77,7 @@ class Stream {
 
   update() {
     this.y += this.speed;
-    if (this.y > CANVAS_HEIGHT + this.size) return this.reset(0)
+    if (this.y > this.canvasHeight + this.size) return this.reset(0)
     
     if (Math.random() < CHAR_UPDATE_FREQUENCY) 
       this.stream[getRandomInRange(0, this.length)] = getRandomCharacter()
@@ -107,8 +108,14 @@ class Stream {
   }
 }
 
+
+
 const MatrixRain = () => {
-  
+  ///--
+  const context = useContext(FunContext);
+  const CANVAS_WIDTH = context?.width !== undefined ? context.width : 0
+  const CANVAS_HEIGHT = context?.height !== undefined ? context.height : 0
+  ///--
   const canvasRef = useRef<HTMLCanvasElement>(null);
   let streams = useRef<Stream[]>([]);
 
@@ -119,8 +126,9 @@ const MatrixRain = () => {
     const _ctx = canvasRef.current.getContext('2d')
     if (!_ctx) return;
 
-    streams.current = new Array(NB_OF_STREAMS).fill(undefined).map(_ => new Stream(_ctx));
-  }, [])
+    if (CANVAS_HEIGHT === 0 || CANVAS_WIDTH === 0) return
+    streams.current = new Array(NB_OF_STREAMS).fill(undefined).map(_ => new Stream(_ctx, CANVAS_WIDTH, CANVAS_HEIGHT));
+  }, [CANVAS_HEIGHT, CANVAS_WIDTH])
   
 
   const draw = (ctx: CanvasRenderingContext2D, frameCount: number) => {

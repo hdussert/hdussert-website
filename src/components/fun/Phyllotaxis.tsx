@@ -1,4 +1,5 @@
-import React, { useRef } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
+import { FunContext } from '../../pages/Fun'
 import Canvas from './Canvas'
 
 // Utils
@@ -25,19 +26,20 @@ const rgbFromAngle = (angle: number) : string => {
   return `rgb(${r},${g},${b})`
 }
 
-// Globals
-const CANVAS_WIDTH = Math.min(window.innerWidth, 768)
-const CANVAS_HEIGHT = window.innerHeight
-
 //--
 const Phyllotaxis = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  
-  const midX = CANVAS_WIDTH / 2;
-  const midY = CANVAS_HEIGHT / 2;
+
   
   let translated = useRef(false);
   let rendered = useRef(false);
+  
+  const context = useContext(FunContext);
+  const CANVAS_WIDTH = context?.width !== undefined ? context.width : 0
+  const CANVAS_HEIGHT = context?.height !== undefined ? context.height : 0
+  const midX = CANVAS_WIDTH / 2;
+  const midY = CANVAS_HEIGHT / 2;
+  if (CANVAS_HEIGHT === 0 || CANVAS_WIDTH === 0) return <></>
 
   let angle = 155.75
   let angleUpdate = false;
@@ -48,7 +50,6 @@ const Phyllotaxis = () => {
 
   const draw = (ctx: CanvasRenderingContext2D, frameCount: number) => {
     if (rendered.current && !angleUpdate) return
-    console.log('rendered')
     if (!translated.current) {
       ctx.translate(midX, midY)
       ctx.lineWidth = 4
