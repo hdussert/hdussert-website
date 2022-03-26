@@ -10,6 +10,7 @@ import Resume from './pages/Resume';
 import React from 'react';
 import Fun from './pages/Fun';
 import MatrixRain from './components/fun/MatrixRain';
+import Phyllotaxis from './components/fun/Phyllotaxis';
 
 
 export interface AppRoute {
@@ -26,6 +27,7 @@ const appRoutes: AppRoute[] = [
 
 const funRoutes: AppRoute[] = [
   { path: '/fun/matrix', title: 'Matrix', Component: MatrixRain },
+  { path: '/fun/Phyllotaxis', title: 'Phyllotaxis', Component: Phyllotaxis },
 ];
 
 function App() {
