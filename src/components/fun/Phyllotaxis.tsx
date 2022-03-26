@@ -1,16 +1,19 @@
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useContext, useRef } from 'react'
 import { FunContext } from '../../pages/Fun'
 import Canvas from './Canvas'
 
 // Utils
-const EqTriangle = (ctx: CanvasRenderingContext2D, cx: number, cy: number, side: number) => {
-  var h = side * (Math.sqrt(3)/2)
-  ctx.moveTo(cx, cy - h / 2)
-  ctx.lineTo(cx - side / 2, cy + h / 2)
-  ctx.lineTo(cx + side / 2, cy + h / 2)
-  ctx.lineTo(cx, cy - h / 2)
+function polygon(ctx: CanvasRenderingContext2D, x: number, y: number, radius: number, npoints: number) {
+  const angle = TWO_PI / npoints;
+  ctx.beginPath()
+  for (let a = 0; a <= TWO_PI + angle; a += angle) {
+    let sx = x + Math.cos(a) * radius;
+    let sy = y + Math.sin(a) * radius;
+    ctx.lineTo(sx, sy);
+  }
 }
 
+const TWO_PI = Math.PI * 2
 const degreeToRadian = (angle: number) => angle * Math.PI / 180;
 
 const deg120toRad = degreeToRadian(120)
@@ -29,21 +32,19 @@ const rgbFromAngle = (angle: number) : string => {
 //--
 const Phyllotaxis = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-
-  
-  let translated = useRef(false);
-  let rendered = useRef(false);
+  const translated = useRef(false);
+  const rendered = useRef(false);
   
   const context = useContext(FunContext);
-  const CANVAS_WIDTH = context?.width !== undefined ? context.width : 0
-  const CANVAS_HEIGHT = context?.height !== undefined ? context.height : 0
-  const midX = CANVAS_WIDTH / 2;
-  const midY = CANVAS_HEIGHT / 2;
-  if (CANVAS_HEIGHT === 0 || CANVAS_WIDTH === 0) return <></>
+  const canvasWidth = Math.min(context?.width  || 0, 768)
+  const canvasHeight = context?.height || 0
+  
+  const midX = canvasWidth / 2;
+  const midY = canvasHeight / 2;
 
   let angle = 155.75
   let angleUpdate = false;
-  let shape = 'rectangle' // can also be rectangle / triangle
+  let shape = 'triangle' // can also be rectangle / triangle
   let fill = false;
   let sizeMin = 100
   let sizeMax = 1
@@ -56,7 +57,7 @@ const Phyllotaxis = () => {
       translated.current = true;
     }
 
-    ctx.clearRect(-midX,-midY,CANVAS_WIDTH, CANVAS_HEIGHT);
+    ctx.clearRect(-midX,-midY, canvasWidth, canvasHeight);
     let sz = 50;
     let rot = 0;
     if (angleUpdate) angle += 0.0025
@@ -64,27 +65,30 @@ const Phyllotaxis = () => {
     const _angle = degreeToRadian(angle);
 
     for (let i = 0; i < 500; i++) {
+      const step = i / 500;
+      let size = (sizeMax - sizeMin) * step + sizeMin
+      let color = rgbFromAngle(degreeToRadian(step * 360))
+
       ctx.rotate(rot)
-      
       ctx.beginPath()
       
       // Shape
-      let size = (sizeMax - sizeMin) * i / 500.0 + sizeMin
       switch(shape) {
         case 'rectangle': ctx.rect(-sz/2, -sz/2, size, size); break;
-        case 'triangle': EqTriangle(ctx, -sz/2, -sz/2, size); break;
-        default : ctx.ellipse(-sz/2, -sz/2, size, size, 0, 0, 360);
+        case 'triangle': polygon(ctx, -sz/2, -sz/2, size/2, 3); break;
+        case 'hexagon': polygon(ctx, -sz/2, -sz/2, size/2, 6); break;
+        case 'octogon': polygon(ctx, -sz/2, -sz/2, size/2, 8); break;
+        default : ctx.ellipse(-sz/2, -sz/2, size / 2, size / 2, 0, 0, 360);
       }
       
       // Draw      
-      let angleColor =  degreeToRadian(i / 500 * 360)
-      let color = rgbFromAngle(angleColor)
       if (fill) ctx.fillStyle = color
-      else ctx.fillStyle = '#0F0F00'
+      else {
+        ctx.fillStyle = '#0F0F00'
+        ctx.strokeStyle = color
+        ctx.stroke()
+      }
       ctx.fill()
-      ctx.strokeStyle = color
-      ctx.stroke()
-      
 
       sz *= 1.0045
       ctx.rotate(-rot)
@@ -142,9 +146,11 @@ const Phyllotaxis = () => {
         <div>
           <label htmlFor="shape">Forme</label><br/>
           <select onChange={changeShape} name="Forms" id="shape">
-            <option value="rectangle">Carré</option>
-            <option value="ellipse">Cercle</option>
             <option value="triangle">Triangle</option>
+            <option value="rectangle">Carré</option>
+            <option value="hexagon">Hexagon</option>
+            <option value="octogon">Octogon</option>
+            <option value="ellipse">Cercle</option>
           </select>
           <br/>
           <label htmlFor="full">Remplir&nbsp;</label>
@@ -152,7 +158,7 @@ const Phyllotaxis = () => {
         </div>
 
       </div>
-      <Canvas ref={canvasRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} draw={draw}/>
+      <Canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} draw={draw}/>
     </div>
   )
 }

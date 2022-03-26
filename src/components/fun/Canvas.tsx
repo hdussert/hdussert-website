@@ -29,6 +29,7 @@ const Canvas = forwardRef<HTMLCanvasElement, CanvasT>(({width, height, draw}, re
   }, [draw])
   
   useImperativeHandle(ref, ()=> canvasRef.current!, [canvasRef])
+  
   return (
     <canvas ref={canvasRef} style={{backgroundColor: '#0F0F00'}} width={width} height={height} />
   )

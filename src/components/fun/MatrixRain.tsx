@@ -52,9 +52,9 @@ class Stream {
   
   startFadingIndex!: number
 
-  constructor(ctx : CanvasRenderingContext2D, canvasW: number, canvasH: number) {
-    this.canvasWidth = canvasW
-    this.canvasHeight = canvasH
+  constructor(ctx : CanvasRenderingContext2D, canvasWidth: number, canvasHeight: number) {
+    this.canvasWidth = canvasWidth
+    this.canvasHeight = canvasHeight
     this.ctx = ctx;
     this.reset()
   }
@@ -111,35 +111,30 @@ class Stream {
 
 
 const MatrixRain = () => {
-  ///--
-  const context = useContext(FunContext);
-  const CANVAS_WIDTH = context?.width !== undefined ? context.width : 0
-  const CANVAS_HEIGHT = context?.height !== undefined ? context.height : 0
-  ///--
   const canvasRef = useRef<HTMLCanvasElement>(null);
   let streams = useRef<Stream[]>([]);
 
-
+  const context = useContext(FunContext);
+  const canvasWidth = context?.width || 0
+  const canvasHeight = context?.height || 0
+  
   useEffect(()=>{
-    if (!canvasRef.current) return
-
-    const _ctx = canvasRef.current.getContext('2d')
+    const _ctx = canvasRef?.current?.getContext('2d')
     if (!_ctx) return;
 
-    if (CANVAS_HEIGHT === 0 || CANVAS_WIDTH === 0) return
-    streams.current = new Array(NB_OF_STREAMS).fill(undefined).map(_ => new Stream(_ctx, CANVAS_WIDTH, CANVAS_HEIGHT));
-  }, [CANVAS_HEIGHT, CANVAS_WIDTH])
+    streams.current = new Array(NB_OF_STREAMS).fill(undefined).map(_ => new Stream(_ctx, canvasWidth, canvasHeight));
+  }, [])
   
 
   const draw = (ctx: CanvasRenderingContext2D, frameCount: number) => {
-    ctx.clearRect(0,0,CANVAS_WIDTH, CANVAS_HEIGHT);
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     if (!streams) return 
     streams.current.forEach(s => s.animate());
   }
 
   return (
     <div className='fill matrix-rain-canvas'>
-      <Canvas ref={canvasRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} draw={draw}/>
+      <Canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} draw={draw}/>
     </div>
   )
 }

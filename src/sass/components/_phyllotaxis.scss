@@ -4,12 +4,15 @@
 
   &-inputs {
       background-color: rgba(var(--primary-rgb), .8);
+      transition: background-color 400ms;
       position: absolute;
-      bottom: 0; 
+      bottom: 0;
+      padding: .5rem; 
       z-index: 2;
 
       display: flex; 
       justify-content: center;
+      align-items: center;
       
       gap: 1rem; 
       width: 768px;

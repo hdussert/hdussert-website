@@ -21,12 +21,15 @@ export const FunContext = createContext<FunContextInterface | null>(null);
 const Fun = ({ routes }: FunTypes) => {
   
   const contentRef = useRef<HTMLDivElement>(null)
-  const [funContext, setFunContext] = useState<FunContextInterface>({width: contentRef?.current?.clientWidth, height: contentRef?.current?.clientHeight});
+  const [funContext, setFunContext] = useState<FunContextInterface>({width: undefined, height: undefined});
+  const [myBodyIsReady, setMyBodyIsReady] = useState(false);
+
   useLayoutEffect(()=>{
     setFunContext({
       width: contentRef?.current?.clientWidth,
       height: contentRef?.current?.clientHeight,
     })
+    setMyBodyIsReady(true)
   },[])
   
   return (
@@ -37,7 +40,7 @@ const Fun = ({ routes }: FunTypes) => {
         </div>
         <div ref={contentRef} className='fun-content'>
           <FunContext.Provider value={funContext}>
-            <Outlet />
+            { myBodyIsReady ? <Outlet /> : null }
           </FunContext.Provider>
         </div>
       </div>
