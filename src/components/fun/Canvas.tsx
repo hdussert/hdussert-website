@@ -4,10 +4,13 @@ interface CanvasT {
   width: number,
   height: number,
   draw(context: CanvasRenderingContext2D, frame:number): void 
+  fpsCap: number
 }
 
-const Canvas = forwardRef<HTMLCanvasElement, CanvasT>(({width, height, draw}, ref) => {
+const Canvas = forwardRef<HTMLCanvasElement, CanvasT>(({width, height, draw, fpsCap}, ref) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const lastTime = useRef(0);
+  const timer = useRef(0);
 
   useEffect(()=>{
     const canvas = canvasRef.current;
@@ -18,15 +21,21 @@ const Canvas = forwardRef<HTMLCanvasElement, CanvasT>(({width, height, draw}, re
     
     let frameCount = 0;
     let animationFrameID = 0;
-    
-    const render = () => {
-      frameCount++;
-      draw(ctx, frameCount)
+    let timePerFrame = 1000 / fpsCap
+    const render = (timeStamp: number) => {
+      const deltaTime = timeStamp - lastTime.current
+      lastTime.current = timeStamp
+      if (timer.current > timePerFrame) {
+        frameCount++;
+        draw(ctx, frameCount)
+        timer.current = 0
+      }
+      else timer.current += deltaTime;
       animationFrameID = window.requestAnimationFrame(render)
     }
-    render()
-    return () => window.cancelAnimationFrame(animationFrameID)
-  }, [draw])
+    render(0)
+    return () => window.cancelAnimationFrame(animationFrameID);
+  }, [draw, fpsCap])
   
   useImperativeHandle(ref, ()=> canvasRef.current!, [canvasRef])
   

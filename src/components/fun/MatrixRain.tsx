@@ -123,7 +123,7 @@ const MatrixRain = () => {
     if (!_ctx) return;
 
     streams.current = new Array(NB_OF_STREAMS).fill(undefined).map(_ => new Stream(_ctx, canvasWidth, canvasHeight));
-  }, [])
+  }, [canvasHeight, canvasWidth])
   
 
   const draw = (ctx: CanvasRenderingContext2D, frameCount: number) => {
@@ -134,7 +134,7 @@ const MatrixRain = () => {
 
   return (
     <div className='fill matrix-rain-canvas'>
-      <Canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} draw={draw}/>
+      <Canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} draw={draw} fpsCap={60}/>
     </div>
   )
 }

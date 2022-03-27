@@ -158,7 +158,7 @@ const Phyllotaxis = () => {
         </div>
 
       </div>
-      <Canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} draw={draw}/>
+      <Canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} draw={draw} fpsCap={60}/>
     </div>
   )
 }
