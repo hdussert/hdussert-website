@@ -155,6 +155,7 @@ const Particles = () => {
         ctx.lineTo(op.x, op.y)
         ctx.stroke()
         ctx.closePath()
+        
       })
     })
     quadTree.show(ctx)
