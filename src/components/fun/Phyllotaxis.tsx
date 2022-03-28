@@ -1,5 +1,6 @@
 import React, { useContext, useRef } from 'react'
 import { FunContext } from '../../pages/Fun'
+import { degreeToRadian, TWO_PI } from '../../utils/canvas';
 import Canvas from './Canvas'
 
 // Utils
@@ -13,21 +14,6 @@ function polygon(ctx: CanvasRenderingContext2D, x: number, y: number, radius: nu
   }
 }
 
-const TWO_PI = Math.PI * 2
-const degreeToRadian = (angle: number) => angle * Math.PI / 180;
-
-const deg120toRad = degreeToRadian(120)
-const deg240toRad = deg120toRad * 2;
-
-const rgbFromAngle = (angle: number) : string => {
-  const angle2 = angle + deg120toRad
-  const angle3 = angle + deg240toRad
-  
-  const g = Math.sin(angle) * 127 + 128;
-  const b = Math.sin(angle2) * 127 + 128;
-  const r = Math.sin(angle3) * 127 + 128; 
-  return `rgb(${r},${g},${b})`
-}
 
 //--
 const Phyllotaxis = () => {
@@ -43,14 +29,14 @@ const Phyllotaxis = () => {
   const midY = canvasHeight / 2;
 
   let angle = 155.75
-  let angleUpdate = false;
+  let animate = false;
   let shape = 'triangle' // can also be rectangle / triangle
   let fill = false;
   let sizeMin = 100
   let sizeMax = 1
-
+  let colorOffset = 0
   const draw = (ctx: CanvasRenderingContext2D, frameCount: number) => {
-    if (rendered.current && !angleUpdate) return
+    if (rendered.current && !animate) return
     if (!translated.current) {
       ctx.translate(midX, midY)
       ctx.lineWidth = 4
@@ -60,14 +46,16 @@ const Phyllotaxis = () => {
     ctx.clearRect(-midX,-midY, canvasWidth, canvasHeight);
     let sz = 50;
     let rot = 0;
-    if (angleUpdate) angle += 0.0025
-    
+    if (animate) {
+      angle += 0.0025
+      colorOffset += 1;
+    }
     const _angle = degreeToRadian(angle);
 
     for (let i = 0; i < 500; i++) {
       const step = i / 500;
       let size = (sizeMax - sizeMin) * step + sizeMin
-      let color = rgbFromAngle(degreeToRadian(step * 360))
+      let color = `hsl(${step * 360 + colorOffset}, 80%, 50%)`
 
       ctx.rotate(rot)
       ctx.beginPath()
@@ -101,8 +89,8 @@ const Phyllotaxis = () => {
     angle = Number(e.target.value);
     rendered.current = false;
   }
-  const changeAngleUpdate = (e: React.ChangeEvent<HTMLInputElement>)  => {
-    angleUpdate = e.target.checked;
+  const changeAnimate = (e: React.ChangeEvent<HTMLInputElement>)  => {
+    animate = e.target.checked;
     rendered.current = false;
   }
   const changeSizeMin = (e: React.ChangeEvent<HTMLInputElement>)  => {
@@ -121,7 +109,10 @@ const Phyllotaxis = () => {
     fill = e.target.checked;
     rendered.current = false;
   }
-
+  const changeColor = (e: React.ChangeEvent<HTMLInputElement>)  => {
+    colorOffset = Number(e.target.value);
+    rendered.current = false;
+  }
 
   return (
     <div className='fill phyllotaxis'>
@@ -130,8 +121,11 @@ const Phyllotaxis = () => {
           <label htmlFor="angle">Angle</label><br/>
           <input onChange={changeAngle} defaultValue={angle} type="range" id="angle" name="Angle" min={1} max={180} step={'0.01'}/>
           <br/>
+          <label htmlFor="color">Couleurs</label><br/>
+          <input onChange={changeColor} defaultValue={colorOffset} type="range" id="color" name="Color" min={0} max={360} step={'0.01'}/>
+          <br/>
           <label htmlFor="overtime-angle">Animer&nbsp;</label>
-          <input onChange={changeAngleUpdate} type='checkbox' name='angle-overtime' id='angle-overtime'/>
+          <input onChange={changeAnimate} type='checkbox' name='angle-overtime' id='angle-overtime'/>
         </div>
 
         <div>

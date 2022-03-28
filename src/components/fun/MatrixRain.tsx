@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef } from 'react';
 import { FunContext } from '../../pages/Fun';
+import { getRandomInRange } from '../../utils/canvas';
 import Canvas from './Canvas'
 
 // Generating random strings
@@ -7,9 +8,6 @@ const characters : string = '\\<>?!#0123456789ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜ�
 
 const getRandomCharacter = () : string =>
 characters.charAt((Math.random() * characters.length) | 0);
-
-const getRandomInRange = (min: number, max: number): number => 
-  (Math.random() * (max - min) + min) | 0;
 
 const getRandomStream = (size: number) : string[] =>
   new Array(size)
@@ -56,10 +54,10 @@ class Stream {
     this.canvasWidth = canvasWidth
     this.canvasHeight = canvasHeight
     this.ctx = ctx;
-    this.reset()
+    this.init()
   }
 
-  reset (y = -1) {
+  init (y = -1) {
     this.stream = getRandomStream(getRandomInRange(STREAM_LENGTH_MIN, STREAM_LENGTH_MAX))
     this.length = this.stream.length;
     this.fontSize = getRandomInRange(FONT_SIZE_MIN, FONT_SIZE_MAX)
@@ -77,7 +75,7 @@ class Stream {
 
   update() {
     this.y += this.speed;
-    if (this.y > this.canvasHeight + this.size) return this.reset(0)
+    if (this.y > this.canvasHeight + this.size) return this.init(0)
     
     if (Math.random() < CHAR_UPDATE_FREQUENCY) 
       this.stream[getRandomInRange(0, this.length)] = getRandomCharacter()
