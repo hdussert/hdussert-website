@@ -8,10 +8,10 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Resume from './pages/Resume';
 import React from 'react';
-import Fun from './pages/Fun';
-import MatrixRain from './components/fun/MatrixRain';
-import Phyllotaxis from './components/fun/Phyllotaxis';
-import Particles from './components/fun/Particles';
+import CreativeCoding from './pages/CreativeCoding';
+import MatrixRain from './components/creative-coding/MatrixRain';
+import Phyllotaxis from './components/creative-coding/Phyllotaxis';
+import Particles from './components/creative-coding/Particles';
 
 
 export interface AppRoute {
@@ -23,13 +23,13 @@ export interface AppRoute {
 const appRoutes: AppRoute[] = [
   { path: '/', title: 'Accueil', Component: Home },
   { path: '/resume', title: 'Curriculum', Component: Resume },
-  { path: '/fun', title: 'Fun', Component: Fun },
+  { path: '/creative-coding', title: 'Creative Coding', Component: CreativeCoding },
 ];
 
-const funRoutes: AppRoute[] = [
-  { path: '/fun/matrix', title: 'Matrix', Component: MatrixRain },
-  { path: '/fun/phyllotaxis', title: 'Phyllotaxis', Component: Phyllotaxis },
-  { path: '/fun/particles', title: 'Particles', Component: Particles },
+const creativeCodingRoutes: AppRoute[] = [
+  { path: '/creative-coding/matrix', title: 'Matrix', Component: MatrixRain },
+  { path: '/creative-coding/phyllotaxis', title: 'Phyllotaxis', Component: Phyllotaxis },
+  { path: '/creative-coding/particles', title: 'Particles Collision', Component: Particles },
 ];
 
 function App() {
@@ -65,10 +65,10 @@ const AppPages = () => {
           <Routes location={location}>
             {
               appRoutes.map(({path, Component}, i) => {
-                if (path === '/fun') {
-                  return (<Route key={i} path={path} element={<Fun routes={funRoutes}/>}>
+                if (path === '/creative-coding') {
+                  return (<Route key={i} path={path} element={<CreativeCoding routes={creativeCodingRoutes}/>}>
                   {
-                    funRoutes.map(({path, Component}, i : number) => 
+                    creativeCodingRoutes.map(({path, Component}, i : number) => 
                     <Route key={i} path={path} element={<Component/>} />)
                   }
                   </Route>)

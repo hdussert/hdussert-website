@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react'
-import { FunContext } from '../../pages/Fun'
+import { CreativeCodingContext } from '../../pages/CreativeCoding'
 import { degreeToRadian, TWO_PI } from '../../utils/canvas';
 import Canvas from './Canvas'
 
@@ -21,7 +21,7 @@ const Phyllotaxis = () => {
   const translated = useRef(false);
   const rendered = useRef(false);
   
-  const context = useContext(FunContext);
+  const context = useContext(CreativeCodingContext);
   const canvasWidth = Math.min(context?.width  || 0, 768)
   const canvasHeight = context?.height || 0
   

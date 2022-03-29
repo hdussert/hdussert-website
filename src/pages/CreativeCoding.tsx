@@ -2,7 +2,7 @@ import { NavLink, Outlet } from 'react-router-dom'
 import PropTypes, { InferProps } from 'prop-types';
 import { createContext, useLayoutEffect, useRef, useState } from 'react';
 
-const FunPropTypes = {
+const CreativeCodingPropTypes = {
   routes: PropTypes.arrayOf(PropTypes.exact({
     path: PropTypes.string.isRequired,
     title: PropTypes.string,
@@ -10,22 +10,22 @@ const FunPropTypes = {
   }).isRequired)
 }
 
-type FunTypes = InferProps<typeof FunPropTypes>;
+type CreativeCodingTypes = InferProps<typeof CreativeCodingPropTypes>;
 
-interface FunContextInterface {
+interface CreativeCodingContextInterface {
   width: number | undefined,
   height: number | undefined
 }
-export const FunContext = createContext<FunContextInterface | null>(null);
+export const CreativeCodingContext = createContext<CreativeCodingContextInterface | null>(null);
 
-const Fun = ({ routes }: FunTypes) => {
+const CreativeCoding = ({ routes }: CreativeCodingTypes) => {
   
   const contentRef = useRef<HTMLDivElement>(null)
-  const [funContext, setFunContext] = useState<FunContextInterface>({width: undefined, height: undefined});
+  const [creativeCodingContext, setCreativeCodingContext] = useState<CreativeCodingContextInterface>({width: undefined, height: undefined});
   const [myBodyIsReady, setMyBodyIsReady] = useState(false);
 
   useLayoutEffect(()=>{
-    setFunContext({
+    setCreativeCodingContext({
       width: contentRef?.current?.clientWidth,
       height: contentRef?.current?.clientHeight,
     })
@@ -33,19 +33,19 @@ const Fun = ({ routes }: FunTypes) => {
   },[])
   
   return (
-    <div className='fill fun'>
-      <div className='fun-container'>
-        <div className='fun-navbar'>
+    <div className='fill creative-coding'>
+      <div className='creative-coding-container'>
+        <div className='creative-coding-navbar'>
         { routes?.map(({ path, title }, i : number) => <NavLink key={i} to={path}>{title}</NavLink>) }
         </div>
-        <div ref={contentRef} className='fun-content'>
-          <FunContext.Provider value={funContext}>
+        <div ref={contentRef} className='creative-coding-content'>
+          <CreativeCodingContext.Provider value={creativeCodingContext}>
             { myBodyIsReady ? <Outlet /> : null }
-          </FunContext.Provider>
+          </CreativeCodingContext.Provider>
         </div>
       </div>
     </div>
   )
 }
 
-export default Fun
+export default CreativeCoding

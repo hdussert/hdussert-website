@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef } from 'react';
-import { FunContext } from '../../pages/Fun';
+import { CreativeCodingContext } from '../../pages/CreativeCoding';
 import { getRandomInRange } from '../../utils/canvas';
 import Canvas from './Canvas'
 
@@ -112,7 +112,7 @@ const MatrixRain = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   let streams = useRef<Stream[]>([]);
 
-  const context = useContext(FunContext);
+  const context = useContext(CreativeCodingContext);
   const canvasWidth = context?.width || 0
   const canvasHeight = context?.height || 0
   

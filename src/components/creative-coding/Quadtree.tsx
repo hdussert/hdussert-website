@@ -56,24 +56,22 @@ class Circle {
 
   intersects(range: Rectangle) {
 
-    const xDist = Math.abs(range.x - this.x);
-    const yDist = Math.abs(range.y - this.y);
+    const xDist = Math.abs(this.x - range.x);
+    const yDist = Math.abs(this.y - range.y);
 
     // radius of the circle
     const r = this.r;
 
-    const w = range.w / 2;
-    const h = range.h / 2;
+    const w = range.w;
+    const h = range.h;
 
     const edges = Math.pow((xDist - w), 2) + Math.pow((yDist - h), 2);
 
     // no intersection
-    if (xDist > (r + w) || yDist > (r + h))
-      return false;
+    if (xDist > (r + w) || yDist > (r + h)) return false;
 
     // intersection within the circle
-    if (xDist <= w || yDist <= h)
-      return true;
+    if (xDist <= w || yDist <= h) return true;
 
     // intersection on the edge of the circle
     return edges <= this.rSquared;
@@ -126,8 +124,9 @@ class Quadtree {
   
   query(range: Rectangle | Circle, found: Point[] | null) {
     if (!found) found = []
-    if (!range.intersects(this.boundary)) return found
-    
+    if (!range.intersects(this.boundary)) {
+      return found
+    }
     for (let p of this.points) {
       if (range.contains(p) && found !== null) {
         found.push(p)
