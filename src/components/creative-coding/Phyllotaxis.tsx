@@ -1,19 +1,8 @@
 import React, { useContext, useRef } from 'react'
 import { CreativeCodingContext } from '../../pages/CreativeCoding'
-import { degreeToRadian, TWO_PI } from '../../utils/canvas';
+import { degreeToRadian, TWO_PI } from './utils/Maths';
 import Canvas from './Canvas'
-
-// Utils
-function polygon(ctx: CanvasRenderingContext2D, x: number, y: number, radius: number, npoints: number) {
-  const angle = TWO_PI / npoints;
-  ctx.beginPath()
-  for (let a = 0; a <= TWO_PI + angle; a += angle) {
-    let sx = x + Math.cos(a) * radius;
-    let sy = y + Math.sin(a) * radius;
-    ctx.lineTo(sx, sy);
-  }
-}
-
+import { polygon } from './utils/Draw';
 
 //--
 const Phyllotaxis = () => {

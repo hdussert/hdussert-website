@@ -11,7 +11,7 @@ import React from 'react';
 import CreativeCoding from './pages/CreativeCoding';
 import MatrixRain from './components/creative-coding/MatrixRain';
 import Phyllotaxis from './components/creative-coding/Phyllotaxis';
-import Particles from './components/creative-coding/Particles';
+import Particles from './components/creative-coding/CollidingParticles';
 
 
 export interface AppRoute {
