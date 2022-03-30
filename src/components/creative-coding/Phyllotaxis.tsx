@@ -1,6 +1,6 @@
 import React, { useContext, useRef } from 'react'
 import { CreativeCodingContext } from '../../pages/CreativeCoding'
-import { degreeToRadian, TWO_PI } from './utils/Maths';
+import { degreeToRadian } from './utils/Maths';
 import Canvas from './Canvas'
 import { polygon } from './utils/Draw';
 
@@ -110,34 +110,33 @@ const Phyllotaxis = () => {
           <label htmlFor="angle">Angle</label><br/>
           <input onChange={changeAngle} defaultValue={angle} type="range" id="angle" name="Angle" min={1} max={180} step={'0.01'}/>
           <br/>
-          <label htmlFor="color">Couleurs</label><br/>
+          <label htmlFor="color">Color</label><br/>
           <input onChange={changeColor} defaultValue={colorOffset} type="range" id="color" name="Color" min={0} max={360} step={'0.01'}/>
-          <br/>
-          <label htmlFor="overtime-angle">Animer&nbsp;</label>
-          <input onChange={changeAnimate} type='checkbox' name='angle-overtime' id='angle-overtime'/>
         </div>
 
         <div>
-          <label htmlFor="size-mix">Taille centre</label><br/>
+          <label htmlFor="size-mix">Center size</label><br/>
           <input onChange={changeSizeMin} defaultValue={sizeMin} type="range" id="size-min" name="size-min" min={1} max={100} step={'0.01'}/>
           <br/>
-          <label htmlFor="size-max">Taille externe</label><br/>
+          <label htmlFor="size-max">Outer size</label><br/>
           <input onChange={changeSizeMax} defaultValue={sizeMax} type="range" id="size-max" name="size-max" min={1} max={100} step={'0.01'}/>
         </div>
 
         
         <div>
-          <label htmlFor="shape">Forme</label><br/>
-          <select onChange={changeShape} name="Forms" id="shape">
+          <select style={{marginBottom: '.3rem'}}onChange={changeShape} name="Forms" id="shape">
             <option value="triangle">Triangle</option>
-            <option value="rectangle">Carré</option>
+            <option value="rectangle">Square</option>
             <option value="hexagon">Hexagon</option>
             <option value="octogon">Octogon</option>
-            <option value="ellipse">Cercle</option>
+            <option value="ellipse">Circle</option>
           </select>
           <br/>
-          <label htmlFor="full">Remplir&nbsp;</label>
+          <label htmlFor="full">Fill&nbsp;</label>
           <input onChange={changeFillMode} type='checkbox' name='full'/>
+          <br/>
+          <label htmlFor="overtime-angle">Animate&nbsp;</label>
+          <input onChange={changeAnimate} type='checkbox' name='angle-overtime' id='angle-overtime'/>
         </div>
 
       </div>
