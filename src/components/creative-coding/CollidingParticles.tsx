@@ -48,14 +48,14 @@ const Particles = () => {
       mousePosition.current = {x: event.offsetX, y: event.offsetY}
     }
 
-    canvasRef.current.addEventListener('mousemove', setMousePosition)
-    window.addEventListener('mousedown', mouseIsDown)
-    window.addEventListener('mouseup', mouseIsUp)
+    _canvasRef.addEventListener('mousemove', setMousePosition)
+    _canvasRef.addEventListener('mousedown', mouseIsDown)
+    _canvasRef.addEventListener('mouseup', mouseIsUp)
 
     return () => {
       _canvasRef.removeEventListener('mousemove', setMousePosition)
-      window.removeEventListener('mousedown', mouseIsDown)
-      window.removeEventListener('mouseup', mouseIsUp)
+      _canvasRef.removeEventListener('mousedown', mouseIsDown)
+      _canvasRef.removeEventListener('mouseup', mouseIsUp)
     }
   }, [])
 
