@@ -43,13 +43,13 @@ class CircleParticle {
   }
 
   update() {
-    if (this.x < 0 || this.x > this.canvasWidth) {
-      this.x = this.x < 0 ? 0 : this.canvasWidth
+    if (this.x <= this.size || this.x >= this.canvasWidth - this.size) {
+      this.x = this.x <= this.size ? this.size : this.canvasWidth - this.size
       this.vx *= -1
     }
 
-    if (this.y < 0 || this.y > this.canvasHeight) {
-      this.y = this.y < 0 ? 0 : this.canvasHeight
+    if (this.y <= this.size || this.y >= this.canvasHeight - this.size) {
+      this.y = this.y <= this.size ? this.size : this.canvasHeight - this.size
       this.vy *= -1
     }
     

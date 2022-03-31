@@ -168,7 +168,7 @@ class Quadtree {
     
     ctx.beginPath()
     ctx.rect(x - w, y - h, w * 2, h * 2);
-    ctx.strokeStyle = '#FFFFFF'
+    ctx.strokeStyle = '#FFFFFF20'
     ctx.stroke()
     ctx.closePath()
 

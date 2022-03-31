@@ -3,12 +3,8 @@ import Canvas from './Canvas'
 import { CircleParticle, CIRCLE_PARTICLE_SIZE_MAX } from './classes/CircleParticle'
 import { Circle, Point, Quadtree, Rectangle } from './classes/Quadtree'
 import { CreativeProjectContext } from './CreativeProject'
+import { Vector2d } from './utils/Interfaces'
 import { distance } from './utils/Maths'
-
-interface vector2d {
-  x: number,
-  y: number
-}
 
 const NB_PARTICLES = 1000;
 const Particles = () => {
@@ -20,7 +16,7 @@ const Particles = () => {
   const canvasWidth = context?.width || 0
   const canvasHeight = context?.height || 0
   const mouseDown = useRef(false);
-  const mousePosition = useRef<vector2d>({x: 100, y: 100});
+  const mousePosition = useRef<Vector2d>({x: 100, y: 100});
   const mousePressingTime = useRef(0);
 
   useEffect(()=> {
@@ -167,23 +163,6 @@ const Particles = () => {
     //   })
     // })
   }
-    // DEBUG 
-    /*
-    ctx.beginPath()
-    ctx.ellipse(mousePosition.current.x ,mousePosition.current.y, 50, 50, 0, 0, 360)
-    ctx.strokeStyle = '#00FF00'
-    ctx.stroke()
-    ctx.closePath()
-    const circle = new Circle(mousePosition.current.x, mousePosition.current.y, 50)
-    const others = quadTree.query(circle, null)
-    others.forEach(op => {
-      ctx.beginPath()
-      ctx.ellipse(op.x, op.y, 2, 2, 0, 0, 360)
-      ctx.strokeStyle = '#00FF00'
-      ctx.stroke()
-      ctx.closePath()
-    })
-    */
   
   return (
     <div className='particles'>

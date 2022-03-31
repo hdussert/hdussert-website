@@ -13,6 +13,7 @@ import CreativeProject from './components/creative-coding/CreativeProject';
 import MatrixRain from './components/creative-coding/MatrixRain';
 import Phyllotaxis from './components/creative-coding/Phyllotaxis';
 import Particles from './components/creative-coding/CollidingParticles';
+import QuadTreeDemo from './components/creative-coding/QuadTreeDemo';
 
 
 export interface AppRoute {
@@ -50,7 +51,15 @@ const creativeCodingRoutes: ProjectRoute[] = [
     ressources: [], previewImagePath: 'Phyllotaxis'},
   { path: '/creative-coding/particles', title: 'Particles Collision', Component: Particles, 
     description: ['My first attempt at resolving circles collision in a 2D environment. Each circle has a mass based on it size.',
-                  'Doing so, I also programed my first QuadTree which allows me to handle a lot of particles interacting with each other. You can see how it works on my QuadTree project page.'], ressources: [], previewImagePath: 'CollidingParticles'},
+                  'Doing so, I also programed my first QuadTree which allows me to handle a lot of particles interacting with each other. You can see how it works on my QuadTree project page.'],
+    ressources: [], previewImagePath: 'CollidingParticles'},
+  { path: '/creative-coding/quadtree', title: 'QuadTree', Component: QuadTreeDemo, 
+    description: ['A Quadtree is a tree data structure, mostly used to partition 2D spaces. A node of this tree is basicaly a rectangle with a list of elements inside and a "capacity" (maximum number of elements it can contain)',
+                  'When building a Quadtree, we start with one node taking the entire space and insert our elements inside of it. Exceeding its capacity, the node divides itself into 4 nodes and distribute new elements inside of them. These nodes follow the same behaviour.',
+                  'When searching which elements are in an given area we run through the tree, ignoring nodes not intersecting/contained by the given area. The search is very efficient.',
+                ], 
+    ressources: [], previewImagePath: ''},
+
 ];
 
 function App() {
