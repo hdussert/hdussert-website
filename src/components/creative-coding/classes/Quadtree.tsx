@@ -140,8 +140,6 @@ class Quadtree {
       this.sub.SE.query(range, found)
     }
 
-    // if (range.containsRectangle(this.boundary)) return found.concat(this.points) 
-    // console.log(found)
     return found
   }
 

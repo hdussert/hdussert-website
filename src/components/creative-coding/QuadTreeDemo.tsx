@@ -15,8 +15,8 @@ function random_unit_vector() : Vector2d {
   };
 }
 
+// TODO
 for (let i = 0; i < numberOfNodes; i++) {
-  console.log('executed')
   let row = [];
   for (let j = 0; j < numberOfNodes; j++) {
       row.push(random_unit_vector());
