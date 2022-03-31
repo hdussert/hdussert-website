@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useRef } from 'react'
-import { CreativeCodingContext } from '../../pages/CreativeCoding'
 import Canvas from './Canvas'
 import { CircleParticle, CIRCLE_PARTICLE_SIZE_MAX } from './classes/CircleParticle'
 import { Circle, Point, Quadtree, Rectangle } from './classes/Quadtree'
+import { CreativeProjectContext } from './CreativeProject'
 import { distance } from './utils/Maths'
 
 interface vector2d {
@@ -16,7 +16,7 @@ const Particles = () => {
   const ctx = useRef<CanvasRenderingContext2D|null>()
   const particles = useRef<CircleParticle[]>([])
 
-  const context = useContext(CreativeCodingContext)
+  const context = useContext(CreativeProjectContext)
   const canvasWidth = context?.width || 0
   const canvasHeight = context?.height || 0
   const mouseDown = useRef(false);
@@ -71,8 +71,15 @@ const Particles = () => {
   }
 
   const draw = (ctx: CanvasRenderingContext2D) => {
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    // ctx.fillStyle = 'rgba(0,0,0,.05)'
+    // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    if (particles.current.length === 0) {
+      ctx.fillStyle = '#FFFFFF'
+      ctx.font = `60px Futura`
+      ctx.fillText('CLICK ME', canvasWidth/2 - 150, canvasHeight/2)
+    }
     
     if (mouseDown.current) {
       mousePressingTime.current += 1

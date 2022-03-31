@@ -5,6 +5,7 @@
 @import './pages/home';
 @import './pages/resume';
 @import './pages/creative-coding';
+@import './components/creative-project';
 
 @import './components/navbar';
 @import './components/switch';
@@ -73,6 +74,6 @@
 
 .fade-exit.fade-exit-active {
   opacity: 0;
-  transform: translate3D(0, 30%, 0);
+  // transform: translate3D(0, 30%, 0);
   transition: opacity 500ms ease-in, transform 500ms;
 }

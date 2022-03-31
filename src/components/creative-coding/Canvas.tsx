@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
+import React, { forwardRef, memo, useEffect, useImperativeHandle, useRef } from 'react'
 
 interface CanvasT {
   width: number,
@@ -38,10 +38,10 @@ const Canvas = forwardRef<HTMLCanvasElement, CanvasT>(({width, height, draw, fps
   }, [draw, fpsCap])
   
   useImperativeHandle(ref, ()=> canvasRef.current!, [canvasRef])
-  
+  console.log('CANVAS RENDERED')  
   return (
     <canvas ref={canvasRef} style={{backgroundColor: '#0F0F00'}} width={width} height={height} />
   )
 })
 
-export default Canvas
+export default memo(Canvas)

@@ -13,12 +13,11 @@ function getRandomStream(size: number) : string[] {
 
 // Globals
 const STREAM_LENGTH_MIN = 5
-const STREAM_LENGTH_MAX = 30
+const STREAM_LENGTH_MAX = 15
 
-const FONT_SIZE_MIN = 15
-const FONT_SIZE_MAX = 30
-
-const CHAR_UPDATE_FREQUENCY = .5
+const FONT_SIZE_MIN = 10
+const FONT_SIZE_MAX = 25
+const CHAR_UPDATE_FREQUENCY = .7
 
 const FIRST_CHAR_COLOR = '#00EFEF' 
 const CHAR_COLOR = '#6432FA'
@@ -38,7 +37,7 @@ class Stream {
   x!: number
   y!: number
   
-  baseOpacity!: number 
+  opacity!: number 
   speed!: number
   
   startFadingIndex!: number
@@ -60,7 +59,7 @@ class Stream {
     if (y !== -1) this.y = y;
     else this.y = Math.random() * (this.canvasHeight + this.size) | 0
     
-    this.baseOpacity = this.fontSize / FONT_SIZE_MAX;
+    this.opacity = this.fontSize / FONT_SIZE_MAX;
     this.speed = this.fontSize / FONT_SIZE_MAX * MAX_SPEED | 0
     
     this.startFadingIndex = this.length / 2 | 0
@@ -80,14 +79,14 @@ class Stream {
     
     this.stream.forEach((s, i)=> {
 
-      let opacity = 0;
-      if (i > this.startFadingIndex) 
-        opacity = (i - this.startFadingIndex) / this.startFadingIndex; 
+      // let fadingOpacity = 0;
+      // if (i > this.startFadingIndex) 
+      //   fadingOpacity = (i - this.startFadingIndex) / this.startFadingIndex; 
+      // fadingOpacity = Math.max(((this.opacity - fadingOpacity) * 255) | 0, 0)
       
-      opacity = Math.max(((this.baseOpacity - opacity) * 255) | 0, 0)
-      
-      if (i === 0) this.ctx.fillStyle = `${FIRST_CHAR_COLOR}${opacity.toString(16)}`
-      else this.ctx.fillStyle = `${CHAR_COLOR}${opacity.toString(16)}`
+      const fadingOpacity = this.opacity * 255 | 0;
+      if (i === 0) this.ctx.fillStyle = `${FIRST_CHAR_COLOR}${fadingOpacity.toString(16)}`
+      else this.ctx.fillStyle = `${CHAR_COLOR}${fadingOpacity.toString(16)}`
       
       this.ctx.fillText(s, this.x, this.y - i * this.fontSize)
     })

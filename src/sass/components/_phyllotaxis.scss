@@ -1,13 +1,16 @@
 .phyllotaxis {
-  display: flex;
-  justify-content: center;
-
   &-inputs {
       background-color: rgba(var(--primary-rgb), .8);
       transition: background-color 400ms;
       position: absolute;
       bottom: 0;
-      padding: .5rem; 
+      padding: .5rem 1rem;
+      border-top-right-radius: 10px;
+      @include mobile {
+        border-top-left-radius: 10px;
+        left: 0;
+        right: 0;
+      }
       z-index: 2;
 
       display: flex; 
@@ -15,11 +18,12 @@
       align-items: center;
       
       gap: 1rem; 
-      width: 768px;
+      // width: 768px;
       margin: 0 auto;
 
-      & input[type="range"]{
+      & input[type="range"], & input[type="number"]{
         max-width: 100px;
       }
+      font-variant: small-caps;
   }
 }

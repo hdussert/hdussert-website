@@ -3,7 +3,7 @@
   top: 0;
   right: 0;
   left: 0;
-  z-index: 2;
+  z-index: 50;
 }
 
 .navbar-container {
@@ -17,7 +17,8 @@
 
   white-space: nowrap;
   backdrop-filter: blur(10px);
-
+  position: relative;
+  z-index: 10;
   @include mobile {
     align-self: unset;
   }
@@ -92,6 +93,7 @@
       background-color: var(--primary-light);
     }
     ~ .navbar-menu {
+      z-index: 10;
       position: fixed;
       top: 4.2rem;
       right: 1rem;

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef } from 'react';
-import { CreativeCodingContext } from '../../pages/CreativeCoding';
 import Canvas from './Canvas'
 import { Stream } from './classes/Stream';
+import { CreativeProjectContext } from './CreativeProject';
 
 const NB_OF_STREAMS = 150;
 
@@ -9,7 +9,7 @@ const MatrixRain = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   let streams = useRef<Stream[]>([]);
 
-  const context = useContext(CreativeCodingContext);
+  const context = useContext(CreativeProjectContext);
   const canvasWidth = context?.width || 0
   const canvasHeight = context?.height || 0
   
@@ -22,6 +22,9 @@ const MatrixRain = () => {
   
 
   const draw = (ctx: CanvasRenderingContext2D, frameCount: number) => {
+    // ctx.fillStyle = 'rgba(0,0,0,.1)'
+    // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     if (!streams) return 
     streams.current.forEach(s => s.animate());
