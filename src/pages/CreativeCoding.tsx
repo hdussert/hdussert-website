@@ -14,11 +14,11 @@ const CreativeCodingPropTypes = {
 type CreativeCodingTypes = InferProps<typeof CreativeCodingPropTypes>;
 
 const CreativeCoding = ({ routes }: CreativeCodingTypes) => {
-  const [isHome, setIsHome] = useState(true);
+  const [isHome, setIsHome] = useState<boolean | null>(null);
   let location = useLocation();
   useEffect(()=> {
-    setIsHome(location.pathname === '/creative-coding')
-  },[])
+    if (isHome === null) setIsHome(location.pathname === '/creative-coding')
+  }, [location.pathname, isHome])
   return (
     <div className='fill creative-coding'>
       <div className='creative-coding-container'>

@@ -92,7 +92,7 @@ const QuadTreeDemo = () => {
     return () => {
       _canvasRef.removeEventListener('mousemove', setMousePosition)
     }
-  }, [])
+  }, [canvasWidth, canvasHeight])
 
   const draw = (ctx: CanvasRenderingContext2D) => {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);

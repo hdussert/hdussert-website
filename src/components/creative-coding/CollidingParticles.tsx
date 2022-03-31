@@ -19,19 +19,12 @@ const Particles = () => {
   const mousePosition = useRef<Vector2d>();
   const mousePressingTime = useRef(0);
 
-  useEffect(()=> {
-    if (!canvasRef.current) return
-    
-    ctx.current = canvasRef.current.getContext('2d')
-    if (ctx.current === null || ctx.current === undefined) return;
-
-  }, [canvasWidth, canvasHeight])
-
   // Mouse Event
   useEffect(() => {
     if (!canvasRef.current) return
     const _canvasRef = canvasRef.current; // need an immutable instance for cleanup func
-
+    ctx.current = canvasRef.current.getContext('2d')
+    
     const mouseIsDown = (event: MouseEvent | TouchEvent) => {
       if (event instanceof MouseEvent && event.button === 0) mouseDown.current = true
       else if (event instanceof TouchEvent) {

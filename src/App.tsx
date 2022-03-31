@@ -59,10 +59,10 @@ const creativeCodingRoutes: ProjectRoute[] = [
                   'When building a Quadtree, we start with one node taking the entire space and insert our elements inside of it. Exceeding its capacity, the node divides itself into 4 nodes and distribute new elements inside of them. These nodes follow the same behaviour.',
                   'When searching which elements are in an given area we run through the tree, ignoring nodes not intersecting/contained by the given area. The search is very efficient.',
                 ], 
-    ressources: [], previewImagePath: ''},
+    ressources: [], previewImagePath: 'QuadTree'},
     { path: '/creative-coding/classic-particle-system', title: 'Classic Particle System', Component: ClassicParticleSystem, 
     description: [], 
-    ressources: [], previewImagePath: ''},
+    ressources: [], previewImagePath: 'ClassicParticleSystem'},
 
 ];
 

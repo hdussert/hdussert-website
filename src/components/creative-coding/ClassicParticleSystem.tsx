@@ -60,6 +60,9 @@ const ClassicParticleSystem = () => {
   }, [])
 
   const draw = (ctx: CanvasRenderingContext2D) => {
+    // ctx.fillStyle = 'rgba(0,0,0,.05)'
+    // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
     if (mouseDown.current && mousePosition.current) {
       mousePressingTime.current += 1
@@ -67,8 +70,12 @@ const ClassicParticleSystem = () => {
       points.current?.push(new CircleParticle (ctx, mousePosition.current.x, mousePosition.current.y, canvasWidth, canvasHeight, hsl, 3, 5, 1, 5))
       if (points.current.length > MAX_PARTICLES) points.current.shift()
     }
+    if (points.current.length === 0) {
+      ctx.fillStyle = '#FFFFFF'
+      ctx.font = `60px Futura`
+      ctx.fillText('CLICK ME', canvasWidth/2 - 150, canvasHeight/2)
+    }
 
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     const quadBoundary = new Rectangle(canvasWidth / 2, canvasHeight / 2, canvasWidth / 2, canvasHeight / 2)
     const quadTree = new Quadtree(quadBoundary, 4)
 
