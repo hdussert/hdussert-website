@@ -14,6 +14,7 @@
     width: 400px;
     padding: 2rem 2rem;
     @include mobile {
+      user-select: none;
       color: $primary;
       position: absolute;
       width: 100%;
@@ -36,6 +37,7 @@
 }
 
 .project-description-button {
+  user-select: none;
   display: none;
   @include mobile {
     display: flex;
@@ -64,6 +66,7 @@
   display: none;
   &:checked {
     ~ .creative-project-description {
+      user-select: initial;
       display: initial;
       animation: fade-in 400ms forwards;
     }

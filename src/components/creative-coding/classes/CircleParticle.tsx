@@ -20,9 +20,9 @@ class CircleParticle {
   mass: number
 
   color: string
-  collision: boolean
+  checked: boolean
 
-  constructor(ctx: CanvasRenderingContext2D, x: number, y: number, canvasWidth: number, canvasHeight: number, color: string) {
+  constructor(ctx: CanvasRenderingContext2D, x: number, y: number, canvasWidth: number, canvasHeight: number, color: string, sizeMin = SIZE_MIN, sizeMax = SIZE_MAX, velMin = SPEED_MIN, velMax = SPEED_MAX) {
     this.ctx = ctx
     this.canvasWidth = canvasWidth
     this.canvasHeight = canvasHeight
@@ -31,15 +31,15 @@ class CircleParticle {
     this.y = y
 
     let dir = Math.random() * Math.PI * 2 - Math.PI / 2;
-    let speed = getRandomInRange(SPEED_MAX, SPEED_MIN);
+    let speed = getRandomInRange(velMin, velMax);
     this.vx = Math.sin(dir) * speed;
     this.vy = Math.cos(dir) * speed;
 
-    this.size = getRandomInRange(SIZE_MIN, SIZE_MAX)
+    this.size = getRandomInRange(sizeMin, sizeMax)
     this.mass = this.size * this.size;
     this.color = color
 
-    this.collision = false
+    this.checked = false
   }
 
   update() {

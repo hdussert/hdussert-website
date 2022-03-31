@@ -132,8 +132,3 @@ const QuadTreeDemo = () => {
 }
 
 export default QuadTreeDemo
-
-    // DEBUG 
-    /*
-
-    */

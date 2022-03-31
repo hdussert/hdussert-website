@@ -16,7 +16,7 @@ const Particles = () => {
   const canvasWidth = context?.width || 0
   const canvasHeight = context?.height || 0
   const mouseDown = useRef(false);
-  const mousePosition = useRef<Vector2d>({x: 100, y: 100});
+  const mousePosition = useRef<Vector2d>();
   const mousePressingTime = useRef(0);
 
   useEffect(()=> {
@@ -32,23 +32,35 @@ const Particles = () => {
     if (!canvasRef.current) return
     const _canvasRef = canvasRef.current; // need an immutable instance for cleanup func
 
-    const mouseIsDown = (event: MouseEvent) => {
-      if (event.button === 0) mouseDown.current = true
+    const mouseIsDown = (event: MouseEvent | TouchEvent) => {
+      if (event instanceof MouseEvent && event.button === 0) mouseDown.current = true
+      else if (event instanceof TouchEvent) {
+        mousePosition.current = {x: event.touches[0].pageX, y: event.touches[0].pageY}
+        mouseDown.current = true
+      }
     }
 
-    const mouseIsUp  = (event: MouseEvent) => {
-      if (event.button === 0) mouseDown.current = false
+    const mouseIsUp  = (event: MouseEvent | TouchEvent) => {
+      if (event instanceof MouseEvent && event.button === 0) mouseDown.current = false
+      else mouseDown.current = false
     }
 
-    const setMousePosition = (event: MouseEvent) => {
-      mousePosition.current = {x: event.offsetX, y: event.offsetY}
+    const setMousePosition = (event: MouseEvent | TouchEvent) => {
+      if (event instanceof MouseEvent) mousePosition.current = {x: event.offsetX, y: event.offsetY}
+      else mousePosition.current = {x: event.touches[0].pageX, y: event.touches[0].pageY}
     }
 
+    _canvasRef.addEventListener('touchmove', setMousePosition)
+    _canvasRef.addEventListener('touchstart', mouseIsDown)
+    _canvasRef.addEventListener('touchend', mouseIsUp)
     _canvasRef.addEventListener('mousemove', setMousePosition)
     _canvasRef.addEventListener('mousedown', mouseIsDown)
     _canvasRef.addEventListener('mouseup', mouseIsUp)
 
     return () => {
+      _canvasRef.removeEventListener('touchmove', setMousePosition)
+      _canvasRef.removeEventListener('touchstart', mouseIsDown)
+      _canvasRef.removeEventListener('touchend', mouseIsUp)
       _canvasRef.removeEventListener('mousemove', setMousePosition)
       _canvasRef.removeEventListener('mousedown', mouseIsDown)
       _canvasRef.removeEventListener('mouseup', mouseIsUp)
@@ -57,7 +69,7 @@ const Particles = () => {
 
 
   const addParticles = (color: string) => {
-    if (ctx.current === null || ctx.current === undefined) return
+    if (ctx.current === null || ctx.current === undefined || !mousePosition.current) return
 
     let {x, y} = mousePosition.current
     x += Math.random() * 20 - 10; y += Math.random() * 20 - 10
@@ -77,7 +89,7 @@ const Particles = () => {
       ctx.fillText('CLICK ME', canvasWidth/2 - 150, canvasHeight/2)
     }
     
-    if (mouseDown.current) {
+    if (mouseDown.current && mousePosition.current) {
       mousePressingTime.current += 1
       const hsl = `hsl(${mousePressingTime.current * 3}, 100%, 50%)`
       addParticles(hsl);
@@ -89,7 +101,7 @@ const Particles = () => {
       p.update()
       const point = new Point(p.x, p.y, p);
       quadTree.insert(point);
-      p.collision = false;
+      p.checked = false;
     })
 
     particles.current.forEach(p1 => {
@@ -99,7 +111,7 @@ const Particles = () => {
       others.forEach(op => {
         if (p1 === op.userData) return
         const p2 = op.userData
-        if (p2.collision) return
+        if (p2.checked) return
         
         // Collisiong check
         let collisiondist = distance(p2.x, p2.y, p1.x, p1.y)
@@ -142,7 +154,7 @@ const Particles = () => {
         p2.vx = p2.vx + dot * p1.mass * n_x; 
         p2.vy = p2.vy + dot * p1.mass * n_y;
       })
-      p1.collision = true;
+      p1.checked = true;
       p1.draw()
     })
     // quadTree.show(ctx)
