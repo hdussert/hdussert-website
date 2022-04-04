@@ -15,6 +15,7 @@ import Phyllotaxis from './components/creative-coding/Phyllotaxis';
 import Particles from './components/creative-coding/CollidingParticles';
 import QuadTreeDemo from './components/creative-coding/QuadTreeDemo';
 import ClassicParticleSystem from './components/creative-coding/ClassicParticleSystem';
+import FractalTree from './components/creative-coding/FractalTree';
 
 
 export interface AppRoute {
@@ -63,7 +64,9 @@ const creativeCodingRoutes: ProjectRoute[] = [
     { path: '/creative-coding/classic-particle-system', title: 'Classic Particle System', Component: ClassicParticleSystem, 
     description: [], 
     ressources: [], previewImagePath: 'ClassicParticleSystem'},
-
+    { path: '/creative-coding/fractal-tree', title: 'Fractal tree', Component: FractalTree, 
+    description: [], 
+    ressources: [], previewImagePath: ''},
 ];
 
 function App() {

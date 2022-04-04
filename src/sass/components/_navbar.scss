@@ -26,6 +26,8 @@
 
 .navbar{
   &-title {
+    font-family: 'Rock Salt', cursive;
+
     & a {
       color: var(--secondary);
       transition: color 400ms;
@@ -34,7 +36,7 @@
       font-size: 1.2rem;
       font-weight: bold;
       gap: .3rem;
-      padding: 1rem;
+      padding: 1rem .5rem;
       > svg {
         width: 2rem;
         height: 2rem;

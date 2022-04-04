@@ -25,6 +25,13 @@
   height: 100vh;
 }
 
+h1, h2 {
+  font-family: 'Rock Salt', cursive;
+  background: -webkit-linear-gradient(left, magenta, orange);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 #theme-switcher {
   display: flex;
   position: absolute;
@@ -57,13 +64,15 @@
 // Pages transition
 
 .fade-enter {
-  opacity: 0;
+  // opacity: 0;
   z-index: 1;
+  transform:  translate3D(100%, 0, 0) scale(0);
 }
 
 .fade-enter.fade-enter-active {
-  opacity: 1;
-  transition: opacity 500ms ease-in 500ms;
+  // opacity: 1;
+  transform:  translate3D(0%, 0, 0) scale(1);
+  transition: opacity 500ms ease-in 500ms, transform 500ms ease-out 500ms;
 }
 
 .fade-exit {
@@ -74,6 +83,6 @@
 
 .fade-exit.fade-exit-active {
   opacity: 0;
-  // transform: translate3D(0, 30%, 0);
-  transition: opacity 500ms ease-in, transform 500ms;
+  transform: translate3D(-100%, 0, 0) scale(0);
+  transition: opacity 500ms ease-in, transform ease-in 500ms;
 }
