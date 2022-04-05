@@ -1,11 +1,11 @@
 .creative-coding {
+  overflow-y: auto;
   &-container {
     box-sizing: border-box;
     display: flex;
     height: 100%;
     position: relative;
     padding-top: 4rem;
-    overflow-y: auto;
   }
   
   &-home {

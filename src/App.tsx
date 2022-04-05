@@ -66,7 +66,7 @@ const creativeCodingRoutes: ProjectRoute[] = [
     ressources: [], previewImagePath: 'ClassicParticleSystem'},
     { path: '/creative-coding/fractal-tree', title: 'Fractal tree', Component: FractalTree, 
     description: [], 
-    ressources: [], previewImagePath: ''},
+    ressources: [], previewImagePath: 'FractalTree'},
 ];
 
 function App() {
@@ -97,7 +97,7 @@ const AppPages = () => {
         <CSSTransition
           key={location.pathname}
           classNames='fade'
-          timeout={1000}
+          timeout={1500}
         >
           <Routes location={location}>
             {

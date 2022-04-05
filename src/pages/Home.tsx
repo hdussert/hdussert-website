@@ -6,7 +6,7 @@ const Home = () : JSX.Element => {
         <div className='home-container'>
           <img src={ProfilePic} alt='Profile Pic'/>
           <div className='home-text'>
-            <h1>Hugo Dussert-Sarthe</h1>
+            <h1>Hugo Dussert</h1>
             <p>Je suis <b>développeur</b>, passioné par le web et les jeux vidéos.
             J'écoute du rap et j'aime les vidéos de Birb.</p>
           </div>

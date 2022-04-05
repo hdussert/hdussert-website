@@ -10,3 +10,9 @@ $desktop-width: 1024px;
 @mixin debug ($debug-color: red) {
   border: 2px solid $debug-color;
 }
+
+@mixin gradientText() {
+  background: -webkit-linear-gradient(left, #6432FA, #00EFEF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

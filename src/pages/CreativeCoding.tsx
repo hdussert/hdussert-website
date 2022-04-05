@@ -25,10 +25,10 @@ const CreativeCoding = ({ routes }: CreativeCodingTypes) => {
         { isHome ? 
           <div className='creative-coding-home'>
             <div className='creative-coding-home-text'>
-              <h3>Creative Coding</h3>
+              <h2>Creative Coding</h2>
               <p>It's a type of computer programming in which the goal is to create something expressive rather than something functional.</p>
               <br/>
-              <h3>Projects</h3>
+              <h2>Projects</h2>
               <p>On my projects, I use HTML Canvas with Javascript to animate them. I might use Tree.js or P5.js later on. Frame per seconds are capped at 60.</p>
             </div>
             <div className="creative-coding-projects">
