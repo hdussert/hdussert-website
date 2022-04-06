@@ -6,7 +6,6 @@ import { degreeToRadian } from './utils/Maths';
 //--
 const FractalTree = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const translated = useRef(false);
   const rendered = useRef(false);
   
   const context = useContext(CreativeProjectContext);
@@ -67,7 +66,6 @@ const FractalTree = () => {
 
   const draw = (ctx: CanvasRenderingContext2D, frameCount: number) => {
     if (rendered.current) return
-    console.log('no')
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
     ctx.translate(canvasWidth / 2, canvasHeight)

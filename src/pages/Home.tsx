@@ -8,7 +8,7 @@ const Home = () : JSX.Element => {
           <div className='home-text'>
             <h1>Hugo Dussert</h1>
             <p>Je suis <b>développeur</b>, passioné par le web et les jeux vidéos.
-            J'écoute du rap et j'aime les vidéos de Birb.</p>
+            Amateur de rap et de vidéos de Birbs.</p>
           </div>
         </div>
       </div>
