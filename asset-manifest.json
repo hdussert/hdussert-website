@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/hdussert-website/static/css/main.8718b8e0.css",
+    "main.js": "/hdussert-website/static/js/main.a343877f.js",
+    "static/js/787.4efac631.chunk.js": "/hdussert-website/static/js/787.4efac631.chunk.js",
+    "static/media/ClassicParticleSystem.png": "/hdussert-website/static/media/ClassicParticleSystem.a8db4de30447c4d7584c.png",
+    "static/media/FractalTree.png": "/hdussert-website/static/media/FractalTree.2a5a857af155a07b23e6.png",
+    "static/media/QuadTree.png": "/hdussert-website/static/media/QuadTree.3c33fd9822463c0843f4.png",
+    "static/media/Phyllotaxis.png": "/hdussert-website/static/media/Phyllotaxis.1ae24c9cdc8ac315f9e9.png",
+    "static/media/Matrix.png": "/hdussert-website/static/media/Matrix.0c616e8e9067949104d6.png",
+    "static/media/hdussert_small.JPG": "/hdussert-website/static/media/hdussert_small.7cbe122c2f220c32e606.JPG",
+    "static/media/CollidingParticles.png": "/hdussert-website/static/media/CollidingParticles.4c04cb87869845afc0d4.png",
+    "index.html": "/hdussert-website/index.html",
+    "main.8718b8e0.css.map": "/hdussert-website/static/css/main.8718b8e0.css.map",
+    "main.a343877f.js.map": "/hdussert-website/static/js/main.a343877f.js.map",
+    "787.4efac631.chunk.js.map": "/hdussert-website/static/js/787.4efac631.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8718b8e0.css",
+    "static/js/main.a343877f.js"
+  ]
+}
