@@ -1,5 +1,6 @@
 {
   "name": "react-ts-boilerplate",
+  "homepage": "http://hdussert.github.io/hdussert-website",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -22,9 +23,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && cp build/index.html build/404.html",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -45,6 +48,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-transition-group": "^4.4.4"
+    "@types/react-transition-group": "^4.4.4",
+    "gh-pages": "^4.0.0"
   }
 }

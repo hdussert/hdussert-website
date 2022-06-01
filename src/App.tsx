@@ -15,6 +15,7 @@ import Phyllotaxis from './components/creative-coding/Phyllotaxis';
 import Particles from './components/creative-coding/CollidingParticles';
 import QuadTreeDemo from './components/creative-coding/QuadTreeDemo';
 import ClassicParticleSystem from './components/creative-coding/ClassicParticleSystem';
+import Dalma from './components/creative-coding/Dalma';
 import FractalTree from './components/creative-coding/FractalTree';
 
 
@@ -67,12 +68,15 @@ const creativeCodingRoutes: ProjectRoute[] = [
     { path: '/creative-coding/fractal-tree', title: 'Fractal tree', Component: FractalTree, 
     description: [], 
     ressources: [], previewImagePath: 'FractalTree'},
+    { path: '/creative-coding/dalma', title: 'Dalma', Component: Dalma, 
+    description: [], 
+    ressources: [], previewImagePath: 'Dalma'}
 ];
 
 function App() {
   return (
     <div className="App">
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
         <Navbar
           title='Hugo Dussert'
           icon={HummingBird}
