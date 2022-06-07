@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useRef } from 'react'
 import Canvas from './Canvas'
-import { CircleParticle, CIRCLE_PARTICLE_SIZE_MAX } from './classes/CircleParticle'
+import { CollidingParticle } from './classes/CollidingParticle'
 import { Circle, Point, Quadtree, Rectangle } from './classes/Quadtree'
 import { CreativeProjectContext } from './CreativeProject'
 import { Vector2d } from './utils/Interfaces'
-import { distance } from './utils/Maths'
+import { distance, getRandomInRange, getRandomInRangeFloat } from './utils/Maths'
 
 const NB_PARTICLES = 1000;
 const Particles = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const ctx = useRef<CanvasRenderingContext2D|null>()
-  const particles = useRef<CircleParticle[]>([])
+  const particles = useRef<CollidingParticle[]>([])
 
   const context = useContext(CreativeProjectContext)
   const canvasWidth = context?.width || 0
@@ -67,7 +67,18 @@ const Particles = () => {
     let {x, y} = mousePosition.current
     x += Math.random() * 20 - 10; y += Math.random() * 20 - 10
 
-    particles.current.push(new CircleParticle (ctx.current, x, y, canvasWidth, canvasHeight, color))
+    particles.current.push(
+      new CollidingParticle (
+        ctx.current, 
+        x, y,
+        getRandomInRangeFloat(- Math.PI, Math.PI),
+        getRandomInRange(2,8),
+        getRandomInRange(10,30),
+        color, 
+        canvasWidth, canvasHeight
+      )
+    )
+
     if (particles.current.length > NB_PARTICLES) particles.current.shift()
   }
 
@@ -98,7 +109,7 @@ const Particles = () => {
     })
 
     particles.current.forEach(p1 => {
-      const circle = new Circle(p1.x, p1.y, CIRCLE_PARTICLE_SIZE_MAX * 3)
+      const circle = new Circle(p1.x, p1.y, 30 * 3)
       const others = quadTree.query(circle, null)
 
       others.forEach(op => {

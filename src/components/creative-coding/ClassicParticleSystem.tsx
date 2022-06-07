@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useRef } from 'react'
 import Canvas from './Canvas';
-import { CircleParticle } from './classes/CircleParticle';
+import { CagedParticle } from './classes/Particle';
 import { Circle, Point, Quadtree, Rectangle } from './classes/Quadtree';
 import { CreativeProjectContext } from './CreativeProject';
 import { Vector2d } from './utils/Interfaces';
-import { distanceSqr } from './utils/Maths';
+import { distanceSqr, getRandomInRange, getRandomInRangeFloat } from './utils/Maths';
 
 const MAX_PARTICLES = 250
 const ClassicParticleSystem = () => {
@@ -17,7 +17,7 @@ const ClassicParticleSystem = () => {
   const canvasWidth = context?.width || 0
   const canvasHeight = context?.height || 0
 
-  const points = useRef<CircleParticle[]>([])
+  const points = useRef<CagedParticle[]>([])
   
   useEffect(() => {
     if (!canvasRef.current) return
@@ -60,16 +60,21 @@ const ClassicParticleSystem = () => {
   }, [])
 
   const draw = (ctx: CanvasRenderingContext2D) => {
-    // ctx.fillStyle = 'rgba(0,0,0,.05)'
-    // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
     if (mouseDown.current && mousePosition.current) {
       mousePressingTime.current += 1
       const hsl = `hsl(${mousePressingTime.current * 3}, 100%, 50%)`
-      points.current?.push(new CircleParticle (ctx, mousePosition.current.x, mousePosition.current.y, canvasWidth, canvasHeight, hsl, 3, 5, 1, 5))
+      points.current?.push(new CagedParticle (ctx, 
+        mousePosition.current.x, mousePosition.current.y,
+        getRandomInRangeFloat(- Math.PI, Math.PI),
+        getRandomInRange(1,5),
+        getRandomInRange(3,5),
+        hsl, 
+        canvasWidth, canvasHeight))
       if (points.current.length > MAX_PARTICLES) points.current.shift()
     }
+
     if (points.current.length === 0) {
       ctx.fillStyle = '#FFFFFF'
       ctx.font = `60px Futura`
