@@ -17,6 +17,7 @@ import QuadTreeDemo from './components/creative-coding/QuadTreeDemo';
 import ClassicParticleSystem from './components/creative-coding/ClassicParticleSystem';
 import Dalma from './components/creative-coding/Dalma';
 import FractalTree from './components/creative-coding/FractalTree';
+import Flow from './components/creative-coding/Flow';
 
 
 export interface AppRoute {
@@ -101,7 +102,15 @@ const creativeCodingRoutes: ProjectRoute[] = [
     description: [], 
     ressources: [], 
     previewImagePath: 'Dalma'
-  }
+  },
+  { 
+    path: '/creative-coding/flow', 
+    title: 'Flow', 
+    Component: Flow, 
+    description: [], 
+    ressources: [], 
+    previewImagePath: 'ClassicParticleSystem'
+  },
 ];
 
 function App() {

@@ -4,19 +4,18 @@ import Canvas from './Canvas';
 import { CagedParticle } from './classes/Particle';
 import { Circle, Point, Quadtree, Rectangle } from './classes/Quadtree';
 import { CreativeProjectContext } from './CreativeProject';
-import { distanceSqr, getRandomInRange, getRandomInRangeFloat } from './utils/Maths';
+import { distanceSqr, getRandomInRangeFloat } from './utils/Maths';
 
-const MAX_PARTICLES = 250
-const ClassicParticleSystem = () => {
+const Flow = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const ctx = useRef<CanvasRenderingContext2D|null>()
-  const mousePressingTime = useRef(0);
-  const mouse = useMouseManager(canvasRef)
+
   const context = useContext(CreativeProjectContext)
   const canvasWidth = context?.width || 0
   const canvasHeight = context?.height || 0
 
   const points = useRef<CagedParticle[]>([])
+  const mouse = useMouseManager(canvasRef)
   
   useEffect(() => {
     if (!canvasRef.current) return
@@ -26,28 +25,21 @@ const ClassicParticleSystem = () => {
   const draw = (ctx: CanvasRenderingContext2D) => {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-    if (mouse.button[0].pressed) {
-      mousePressingTime.current += 1
-      const hsl = `hsl(${mousePressingTime.current * 3}, 100%, 50%)`
+    if (mouse.button[1].pressed) {
       points.current?.push(new CagedParticle (ctx, 
         mouse.position.x, mouse.position.y,
         getRandomInRangeFloat(- Math.PI, Math.PI),
-        getRandomInRange(1,5),
-        getRandomInRange(3,5),
-        hsl, 
+        2,
+        2,
+        '#FFF', 
         canvasWidth, canvasHeight))
-      if (points.current.length > MAX_PARTICLES) points.current.shift()
+      if (points.current.length > 20) points.current.shift()
     }
 
-    if (points.current.length === 0) {
-      ctx.fillStyle = '#FFFFFF'
-      ctx.font = `60px Futura`
-      ctx.fillText('CLICK ME', canvasWidth/2 - 150, canvasHeight/2)
-    }
-
+    // Build the Quadtree
     const quadBoundary = new Rectangle(canvasWidth / 2, canvasHeight / 2, canvasWidth / 2, canvasHeight / 2)
     const quadTree = new Quadtree(quadBoundary, 4)
-
+    
     points.current?.forEach(p => {
       p.update();
       p.checked = false;
@@ -81,4 +73,4 @@ const ClassicParticleSystem = () => {
   )
 }
 
-export default ClassicParticleSystem
+export default Flow

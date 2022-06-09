@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef } from 'react'
+import { useMouseManager } from '../../hooks/useMouseManager'
 import Canvas from './Canvas'
 import { CollidingParticle } from './classes/CollidingParticle'
 import { Circle, Point, Quadtree, Rectangle } from './classes/Quadtree'
 import { CreativeProjectContext } from './CreativeProject'
-import { Vector2d } from './utils/Interfaces'
 import { distance, getRandomInRange, getRandomInRangeFloat } from './utils/Maths'
 
 const NB_PARTICLES = 1000;
@@ -15,56 +15,19 @@ const Particles = () => {
   const context = useContext(CreativeProjectContext)
   const canvasWidth = context?.width || 0
   const canvasHeight = context?.height || 0
-  const mouseDown = useRef(false);
-  const mousePosition = useRef<Vector2d>();
   const mousePressingTime = useRef(0);
-
+  const mouse = useMouseManager(canvasRef)
   // Mouse Event
   useEffect(() => {
     if (!canvasRef.current) return
-    const _canvasRef = canvasRef.current; // need an immutable instance for cleanup func
     ctx.current = canvasRef.current.getContext('2d')
-    
-    const mouseIsDown = (event: MouseEvent | TouchEvent) => {
-      if (event instanceof MouseEvent && event.button === 0) mouseDown.current = true
-      else if (event instanceof TouchEvent) {
-        mousePosition.current = {x: event.touches[0].pageX, y: event.touches[0].pageY}
-        mouseDown.current = true
-      }
-    }
-
-    const mouseIsUp  = (event: MouseEvent | TouchEvent) => {
-      if (event instanceof MouseEvent && event.button === 0) mouseDown.current = false
-      else mouseDown.current = false
-    }
-
-    const setMousePosition = (event: MouseEvent | TouchEvent) => {
-      if (event instanceof MouseEvent) mousePosition.current = {x: event.offsetX, y: event.offsetY}
-      else mousePosition.current = {x: event.touches[0].pageX, y: event.touches[0].pageY}
-    }
-
-    _canvasRef.addEventListener('touchmove', setMousePosition)
-    _canvasRef.addEventListener('touchstart', mouseIsDown)
-    _canvasRef.addEventListener('touchend', mouseIsUp)
-    _canvasRef.addEventListener('mousemove', setMousePosition)
-    _canvasRef.addEventListener('mousedown', mouseIsDown)
-    _canvasRef.addEventListener('mouseup', mouseIsUp)
-
-    return () => {
-      _canvasRef.removeEventListener('touchmove', setMousePosition)
-      _canvasRef.removeEventListener('touchstart', mouseIsDown)
-      _canvasRef.removeEventListener('touchend', mouseIsUp)
-      _canvasRef.removeEventListener('mousemove', setMousePosition)
-      _canvasRef.removeEventListener('mousedown', mouseIsDown)
-      _canvasRef.removeEventListener('mouseup', mouseIsUp)
-    }
   }, [])
 
 
   const addParticles = (color: string) => {
-    if (ctx.current === null || ctx.current === undefined || !mousePosition.current) return
+    if (ctx.current === null || ctx.current === undefined) return
 
-    let {x, y} = mousePosition.current
+    let { x, y } = mouse.position
     x += Math.random() * 20 - 10; y += Math.random() * 20 - 10
 
     particles.current.push(
@@ -83,9 +46,9 @@ const Particles = () => {
   }
 
   const draw = (ctx: CanvasRenderingContext2D) => {
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-    // ctx.fillStyle = 'rgba(0,0,0,.05)'
-    // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    // ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    ctx.fillStyle = 'rgba(0,0,0,.05)'
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     if (particles.current.length === 0) {
       ctx.fillStyle = '#FFFFFF'
@@ -93,7 +56,7 @@ const Particles = () => {
       ctx.fillText('CLICK ME', canvasWidth/2 - 150, canvasHeight/2)
     }
     
-    if (mouseDown.current && mousePosition.current) {
+    if (mouse.button[0].pressed) {
       mousePressingTime.current += 1
       const hsl = `hsl(${mousePressingTime.current * 3}, 100%, 50%)`
       addParticles(hsl);
@@ -161,23 +124,6 @@ const Particles = () => {
       p1.checked = true;
       p1.draw()
     })
-    // quadTree.show(ctx)
-
-    /* DRAW LINES BETWEEN THEM */
-    // particles.current.forEach(p => {
-    //   const circle = new Circle(p.x, p.y, 50)
-    //   const others = quadTree.query(circle, null)
-    //   others.forEach(op => {
-    //     if (p === op.userData) return
-    //     ctx.beginPath() 
-    //     ctx.strokeStyle = p.color
-    //     ctx.moveTo(p.x, p.y)
-    //     ctx.lineTo(op.x, op.y)
-    //     ctx.stroke()
-    //     ctx.closePath()
-    //     // 
-    //   })
-    // })
   }
   
   return (
